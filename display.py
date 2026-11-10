@@ -5,8 +5,8 @@ ROW_COUNT = 8
 COLUMN_COUNT = 9
 
 # This sets the WIDTH and HEIGHT of each grid location
-WIDTH = 30
-HEIGHT = 30
+WIDTH = 50
+HEIGHT = 50
 
 # This sets the margin between each cell
 # and on the edges of the screen.
@@ -54,6 +54,9 @@ GRAPH_CLRS = ["#ffffff",
               "#404040",
               "#303030",]
 
+#coordinates that cannot be filled in
+NULL_COORDS = [[0,0], [0,1], [1,0], [0,6], [0,7], [0,8], [1,7], [1,8], [2,8], [6,0], [7,0], [7,1], [7,6], [7,7], [7,8], [6,7], [6, 8], [5,8]]
+
 
 class GameView(arcade.View):
     """
@@ -89,14 +92,20 @@ class GameView(arcade.View):
         # This command has to happen before we start drawing
         self.clear()
 
+        null_coord_found = False
+
         # Draw the grid
         for row in range(ROW_COUNT):
             for column in range(COLUMN_COUNT):
                 # Draw the color for the box based on the current number
-            
-                color = arcade.types.Color.from_hex_string(GRAPH_CLRS[self.grid[row][column]])
+                for i in NULL_COORDS:
+                    if(row == i[0] and column == i[1]):
+                        null_coord_found = True
 
-                
+                if(null_coord_found):
+                    color = arcade.color.TRANSPARENT_BLACK
+                else:
+                    color = arcade.types.Color.from_hex_string(GRAPH_CLRS[self.grid[row][column]])
 
                 # Do the math to figure out where the box is
                 x = (MARGIN + WIDTH) * column + MARGIN + WIDTH // 2
@@ -104,6 +113,10 @@ class GameView(arcade.View):
 
                 # Draw the box
                 arcade.draw_rect_filled(arcade.rect.XYWH(x, y, WIDTH, HEIGHT), color)
+
+                # Draw the value on the box
+                null_coord_found = False
+                
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
