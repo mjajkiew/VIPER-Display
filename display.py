@@ -77,6 +77,8 @@ class GameView(arcade.View):
             # in this row
             self.grid.append([])
             for column in range(COLUMN_COUNT):
+                print(f"ROW: {row}")
+                print(f"COL: {column}")
                 self.grid[row].append(0)  # Append a cell
 
         self.background_color = arcade.color.BLUEBERRY
@@ -127,16 +129,18 @@ class GameView(arcade.View):
         column = int(x // (WIDTH + MARGIN))
         row = int(y // (HEIGHT + MARGIN))
 
-        print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}). Box value: {self.grid[row][column]}")
+        print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}).")
 
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
         if row < ROW_COUNT and column < COLUMN_COUNT:
 
+            print(f"Box value: {self.grid[row][column]}")
             # Clicking changes the value, once max (35) is reached, clicking again will result in 0
             self.grid[row][column] += 1
             if(self.grid[row][column] >= 35):
                 self.grid[row][column] = 0
+        
 
 
 def main():
