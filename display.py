@@ -1,4 +1,5 @@
 import arcade
+import arcade.gui
 import constants as c
 
 class GameView(arcade.View):
@@ -19,29 +20,47 @@ class GameView(arcade.View):
 
         super().__init__()
 
-        self.text = ""
-
         self.null_coord_found = False
-    
-        # Create a 2 dimensional array
-        self.grid = []
-        for row in range(c.ROW_COUNT):
-            # Add an empty array that will hold each cell
-            # in this row
-            self.grid.append([])
-            for column in range(c.COLUMN_COUNT):
-                for i in c.NULL_COORDS:
-                    if(row == i[0] and column == i[1]):
-                        self.null_coord_found = True
-                if(self.null_coord_found):
-                    self.grid[row].append(-1)
-                    self.null_coord_found = False
-                else:
-                    self.grid[row].append(0)  # Append a cell
 
         self.background_color = arcade.color.BLUEBERRY
 
-        print(self.grid)
+        self.manager = arcade.gui.UIManager()
+
+        self.grid = arcade.gui.UIGridLayout(
+            column_count=9, row_count=8, horizontal_spacing=10, vertical_spacing=10
+        )
+
+       #this is how you all a child in a gridlayout 
+        #print(self.grid.children[0].text)
+
+        for rw in range(c.ROW_COUNT):
+            for col in range(c.COLUMN_COUNT):
+                for i in c.NULL_COORDS:
+                    #if null coordinate exists, then null coord found == true
+                    if(rw == i[0] and col == i[1]):
+                        self.null_coord_found = True
+                #if it is not a null coordinate, add an input textbox to the grid layout at cuur coord
+                if(self.null_coord_found == False):
+                    self.input_field = arcade.gui.UIInputText(
+                                        width=40,
+                                        height=40,
+                                        text="0",
+                                        text_color=arcade.color.WHITE
+                                    ).with_border(color=arcade.color.WHITE, width=2)
+                    self.grid.add(self.input_field, column=col, row=rw)
+                #reset back to false
+                self.null_coord_found = False
+
+        self.anchor = self.manager.add(arcade.gui.UIAnchorLayout())
+
+        self.anchor.add(
+            anchor_x="center_x",
+            anchor_y="center_y",
+            child=self.grid,
+        )
+
+        self.manager.enable()
+
 
     def on_draw(self):
         """
@@ -57,70 +76,7 @@ class GameView(arcade.View):
         # This command has to happen before we start drawing
         self.clear()
 
-        # Draw the grid
-        for row in range(c.ROW_COUNT):
-            for column in range(c.COLUMN_COUNT):
-                # Draw the color for the box based on the current number
-
-                if(self.grid[row][column] == -1):
-                    color = arcade.color.RED
-                else:
-                    color = arcade.types.Color.from_hex_string(c.GRAPH_CLRS[self.grid[row][column]])
-
-                # Do the math to figure out where the box is
-                x = (c.MARGIN + c.WIDTH) * column + c.MARGIN + c.WIDTH // 2
-                y = (c.MARGIN + c.HEIGHT) * row + c.MARGIN + c.HEIGHT // 2
-
-                # Draw the box
-                arcade.draw_rect_filled(arcade.rect.XYWH(x, y, c.WIDTH, c.HEIGHT), color)
-
-                # Draw the value on the box
-                null_coord_found = False
-                
-            arcade.draw_text(self.text, 250, 450, arcade.color.BLACK, 24, anchor_x='center')
-
-
-    def on_mouse_press(self, x, y, button, modifiers):
-        """
-        Called when the user presses a mouse button.
-
-        param:
-            self
-            x
-            y
-            button
-            modifiers
-        return:
-            nothing
-        """
-
-        # Change the x/y screen coordinates to grid coordinates
-        column = int(x // (c.WIDTH + c.MARGIN))
-        row = int(y // (c.HEIGHT + c.MARGIN))
-
-        print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column}).")
-
-        # Make sure we are on-grid. It is possible to click in the upper right
-        # corner in the margin and go to a grid location that doesn't exist
-        if row < c.ROW_COUNT and column < c.COLUMN_COUNT:
-
-            print(f"Box value: {self.grid[row][column]}")
-            # if the grid is not a null value, be able to increase value by clicking
-            if(self.grid[row][column] != -1):
-                self.grid[row][column] += 1
-                # Clicking changes the value, once max (35) is reached, clicking again will result in 0
-                if(self.grid[row][column] >= 35):
-                    self.grid[row][column] = 0
-       
-    def on_key_press(self, key, key_modifiers):
-        if(key == 65288):
-            if(len(self.text) >= 1):
-                #print(self.text.removesuffix(self.text[-1]))
-                self.text = self.text.removesuffix(self.text[-1])
-        else:
-            self.text += chr(key)
-        #print(self.text)
-
+        self.manager.draw()
 
 def main():
     """ Main function """
