@@ -81,10 +81,10 @@ class GameView(arcade.View):
 
         @self.convert_button.event("on_click")
         def _(event):
-            print("hello!")
+            print(convert_to_list(self))
         @self.switch_eye.event("on_click")
         def _(event):
-            print("yo yo!")
+            print("Need to implement :P")
 
         self.manager.enable()
 
@@ -129,7 +129,7 @@ def convert_to_list(self):
                     self.null_coord_found = True
             #if it is not a null coordinate, we ap
             if(self.null_coord_found == False):
-                row_list.append(self.grid.children[grid_idx])
+                row_list.append(int(self.grid.children[grid_idx].text))
                 grid_idx += 1
             else:
                 row_list.append(-1)
@@ -139,8 +139,6 @@ def convert_to_list(self):
         #make row_list empty again to create the next row in the grid
         row_list = []
     return lst
-
-
 
 def main():
     """ Main function """
