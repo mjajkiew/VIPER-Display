@@ -70,6 +70,22 @@ class GameView(arcade.View):
             anchor_y="center_y",
             child=self.grid,
         )
+
+        self.h_box = arcade.gui.UIBoxLayout(space_between=20, vertical=False)
+        self.anchor.add(self.h_box, anchor_x="center_x", anchor_y="bottom", align_y=5)
+        
+        self.convert_button = arcade.gui.UIFlatButton(text="Convert to List", height= 30, width=150)
+        self.switch_eye = arcade.gui.UIFlatButton(text="Switch Eye", height=30, width=150)
+        self.h_box.add(self.switch_eye)
+        self.h_box.add(self.convert_button)
+
+        @self.convert_button.event("on_click")
+        def _(event):
+            print("hello!")
+        @self.switch_eye.event("on_click")
+        def _(event):
+            print("yo yo!")
+
         self.manager.enable()
 
     def on_draw(self):
