@@ -76,7 +76,7 @@ class GameView(arcade.View):
 
         #hbox for eye title
         self.h_box1 = arcade.gui.UIBoxLayout(space_between=20, vertical=False)
-        self.textbox = arcade.gui.UITextArea(text=f"{self.curr_eye} Eye", text_color=arcade.color.BLACK, width=80, font_size=15)
+        self.textbox = arcade.gui.UITextArea(text=f"{self.curr_eye} Eye", text_color=arcade.color.BLACK, width=100, font_size=15)
         self.anchor.add(self.h_box1, anchor_x = "center_x", anchor_y= "top", align_y=-25)
         self.h_box1.add(self.textbox)
 
@@ -98,7 +98,8 @@ class GameView(arcade.View):
                  self.curr_eye = "Right"
             else:
                  self.curr_eye = "Left"
-            print(self.curr_eye)
+            self.textbox.text = f"{self.curr_eye} Eye"
+            #print(self.curr_eye)
 
         self.manager.enable()
 
