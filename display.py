@@ -36,7 +36,7 @@ class GameView(arcade.View):
 
         self.null_coord_found = False
 
-        self.curr_eye = "LEFT"
+        self.curr_eye = "Left"
 
         self.background_color = arcade.color.BLUEBERRY
 
@@ -74,20 +74,31 @@ class GameView(arcade.View):
             child=self.grid,
         )
 
-        self.h_box = arcade.gui.UIBoxLayout(space_between=20, vertical=False)
-        self.anchor.add(self.h_box, anchor_x="center_x", anchor_y="bottom", align_y=5)
+        #hbox for eye title
+        self.h_box1 = arcade.gui.UIBoxLayout(space_between=20, vertical=False)
+        self.textbox = arcade.gui.UITextArea(text=f"{self.curr_eye} Eye", text_color=arcade.color.BLACK, width=80, font_size=15)
+        self.anchor.add(self.h_box1, anchor_x = "center_x", anchor_y= "top", align_y=-25)
+        self.h_box1.add(self.textbox)
+
+        #hbox for buttons
+        self.h_box2 = arcade.gui.UIBoxLayout(space_between=20, vertical=False)
+        self.anchor.add(self.h_box2, anchor_x="center_x", anchor_y="bottom", align_y=5)
         
         self.convert_button = arcade.gui.UIFlatButton(text="Convert to List", height= 30, width=150)
         self.switch_eye = arcade.gui.UIFlatButton(text="Switch Eye", height=30, width=150)
-        self.h_box.add(self.switch_eye)
-        self.h_box.add(self.convert_button)
+        self.h_box2.add(self.switch_eye)
+        self.h_box2.add(self.convert_button)
 
         @self.convert_button.event("on_click")
         def _(event):
             print(convert_to_list(self))
         @self.switch_eye.event("on_click")
         def _(event):
-            print("Need to implement :P")
+            if(self.curr_eye == "Left"):
+                 self.curr_eye = "Right"
+            else:
+                 self.curr_eye = "Left"
+            print(self.curr_eye)
 
         self.manager.enable()
 
