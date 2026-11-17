@@ -36,6 +36,8 @@ class GameView(arcade.View):
 
         self.null_coord_found = False
 
+        self.curr_eye = "LEFT"
+
         self.background_color = arcade.color.BLUEBERRY
 
         self.manager = arcade.gui.UIManager()
@@ -47,10 +49,10 @@ class GameView(arcade.View):
         #loop to create textboxes in the grid layout widget
         for rw in range(c.ROW_COUNT):
             for col in range(c.COLUMN_COUNT):
-                for i in c.NULL_COORDS:
-                    #if null coordinate exists, then null coord found == true
-                    if(rw == i[0] and col == i[1]):
-                        self.null_coord_found = True
+                for i in c.RIGHT_NULL_COORDS:
+                                    #if null coordinate exists, then null coord found == true
+                                    if(rw == i[0] and col == i[1]):
+                                        self.null_coord_found = True
                 #if it is not a null coordinate, add an input textbox to the grid layout at cuur coord
                 if(self.null_coord_found == False):
                     self.input_field = arcade.gui.UIInputText(
@@ -63,6 +65,7 @@ class GameView(arcade.View):
                 #reset back to false
                 self.null_coord_found = False
 
+        print(self.grid)
         self.anchor = self.manager.add(arcade.gui.UIAnchorLayout())
 
         self.anchor.add(
@@ -123,11 +126,11 @@ def convert_to_list(self):
     for rw in range(c.ROW_COUNT):
         row_list = []
         for col in range(c.COLUMN_COUNT):
-            for i in c.NULL_COORDS:
+            for i in c.RIGHT_NULL_COORDS:
                 #if null coordinate exists, then null coord found == true
                 if(rw == i[0] and col == i[1]):
                     self.null_coord_found = True
-            #if it is not a null coordinate, we ap
+            #if it is not a null coordinate, we append what is currently in the gridlayout to the list
             if(self.null_coord_found == False):
                 row_list.append(int(self.grid.children[grid_idx].text))
                 grid_idx += 1
