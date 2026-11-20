@@ -112,7 +112,6 @@ class GameView(arcade.View):
         @self.convert_button.event("on_click")
         def _(event):
             convert_to_list(self)
-            print("printed!")
 
         self.manager.enable()
 
@@ -180,8 +179,16 @@ def convert_to_list(self):
         #make row_list empty again to create the next row in the grid
         left_row_list = []
         right_row_list = []
-    print(left_eye_lst)
-    print(right_eye_lst)
+    #print(left_eye_lst)
+    #print(right_eye_lst)
+
+    #Now we want to append each to separate files
+    f1 = open("LeftEyeHVal", "w")
+    f2 = open("RightEyeHVal", "w")
+    f1.write(str(left_eye_lst))
+    f2.write(str(right_eye_lst))
+    f1.close()
+    f2.close()
 
 def main():
     """ Main function """
