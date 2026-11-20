@@ -13,7 +13,7 @@ HEIGHT = 50
 MARGIN = 5
 
 # Do the math to figure out our screen dimensions
-WINDOW_WIDTH = 500
+WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 500
 WINDOW_TITLE = "VIPER Display"
 
@@ -67,4 +67,5 @@ RIGHT_NULL_COORDS = [[0,0], [0,1], [0,2],
                      [7,0], [7,1], [7,2],
                      [0,7], [0,8], [1,8],
                      [6,8], [7,8], [7,7]]
+NULL_COORDS_LEN = 18
 CURR_COORDS = LEFT_NULL_COORDS
