@@ -183,8 +183,8 @@ def convert_to_list(self):
     #print(right_eye_lst)
 
     #Now we want to append each to separate files
-    f1 = open("LeftEyeHVal", "w")
-    f2 = open("RightEyeHVal", "w")
+    f1 = open("LeftEyeHVal.txt", "w")
+    f2 = open("RightEyeHVal.txt", "w")
     f1.write(str(left_eye_lst))
     f2.write(str(right_eye_lst))
     f1.close()
